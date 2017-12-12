@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- As 3 meta tags acima *devem* vir em primeiro lugar dentro do `head`; qualquer outro conteúdo deve vir *após* essas tags -->
+	<title>Auditoria Intercâmbio</title>
+
+	<!-- Última versão CSS compilada e minificada -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<style>
+		a {
+			color: #2196F3;
+			text-decoration: none !important;
+		}
+
+		table tbody td {
+			vertical-align: middle !important;
+		}
+
+		table td,
+		table th {
+
+			text-overflow: ellipsis !important;
+			overflow-x: hidden !important;
+			white-space: nowrap !important;
+			font-size: 10px;
+		}
+		
+		table td .form-control {
+			padding: 2px !important;
+			height: 20px !important;
+			padding: 0px 12px !important;
+			font-size: 10px !important;
+			width: auto;
+		}
+		
+		table td input.form-control {
+			padding: 2px !important;
+			height: 20px !important;
+			padding: 0px 8px !important;
+			font-size: 10px !important;
+			width: 75px !important;
+		}
+		
+		table th {
+			width: auto;
+		}
+		
+		table .label {
+			font-size: 100% !important;
+			font-weight: 400 !important;
+		}
+
+		dl {
+			margin-bottom: 2px;
+			font-size: 12px;
+		}
+
+		#glosarMenu {
+			box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+			position: fixed;
+			top: 0;
+			z-index: 100;
+			border-radius: 0;
+			background-color: #FFFDE7;
+			transform: translateY(-310px);
+			transition: transform .215s ease-in-out;
+		}
+
+		#btnFabEnviar {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			margin: 10px;
+			z-index: 1000;
+		}
+
+		.btn-circle {
+			box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+			width: 30px;
+			height: 30px;
+			text-align: center;
+			padding: 6px 0;
+			font-size: 12px;
+			line-height: 1.428571429;
+			border-radius: 15px;
+		}
+
+		.btn-circle.btn-lg {
+			width: 56px;
+			height: 56px;
+			padding: 10px 16px;
+			font-size: 18px;
+			line-height: 1.33;
+			border-radius: 50%;
+		}
+
+		.btn-circle.btn-xl {
+			width: 70px;
+			height: 70px;
+			padding: 10px 16px;
+			font-size: 24px;
+			line-height: 1.33;
+			border-radius: 35px;
+		}
+
+		.panel {
+			margin-bottom: 10px;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+
+		.panel-heading span {
+			margin-top: -35px;
+			margin-right: 5px;
+			font-size: 30px;
+		}
+
+		.clickable {
+			cursor: pointer;
+		}
+
+		.dropdown-menu {
+			font-size: 12px;
+		}
+		
+		.center-align {
+			text-align: center;
+		}
+		
+		.modal-header .close {
+			margin-top: -20px;
+		}
+		
+		.form-control,
+		.input-group-btn button {
+			height: 28px !important;
+			font-size: 12px !important;
+		}
+		
+		textarea.form-control {
+			height: auto !important;
+		}
+		
+		<!-- #inclusaoMovimentos table td .form-control,  -->
+		<!-- #inclusaoMovimentos table td .input-group button { -->
+			<!-- padding: 2px !important; -->
+			<!-- height: 23px !important; -->
+			<!-- padding: 0px 12px !important; -->
+			<!-- font-size: 10px; -->
+		<!-- } -->
+		
+	</style>
+</head>
+
+<body>
+	
+	<!-- Btns flutuantes fixos de canto de tela para enviar -->
+	<div id="btnFabEnviar" class="">
+		<button id="btnEnviar" type="button" class="btn btn-success btn-circle btn-lg" data-toggle="tooltip" data-placement="left" title="Enviar!"><i class="glyphicon glyphicon-ok"></i></button>
+	</div>
+
+	<br>
+
+	<div class="container-fluid">
+		<div class="row">
+			<!-- PAINEL DOS DETALHES DO PACIENTE -->
+			<div class="col-md-8">
+				<div class="panel">
+					<div class="panel-body">
+						<div class="row">
+							<div style="width: 100px; margin-left: 20px; display: inline-block; vertical-align: top;">
+								<img src="resources/doctor-icon.svg" class="img-responsive">
+							</div>
+							<div style="width: calc(100% - 144px); display: inline-block; padding-right: 15px;">
+								<div class="col-md-9">
+									Paciente <strong style="color: #2196F3;">MARILDA SILVERA PINTO</strong> | 23 anos | Feminino com acomodação contratual <strong style="color: #2196F3;">1-SEMIPRIVATIVO</strong>
+									<br><strong style="color: #2196F3;">SADT</strong> realizado em 12/04/2017 no <strong style="color: #2196F3;">UNIMED LITORAL</strong>, solicitado por Dr(a).<strong style="color: #2196F3;"> UNIMED LITORAL</strong>
+								</div>
+								<div class="col-md-3">
+									<div><span class="label label-warning">SEMI-PRIVATIVO: 3</span></div>
+									<div style="margin-top: 10px;"><button class="btn btn-default" type="button">Anexos <span class="badge">2</span></button></div>
+								</div>
+							</div>
+						</div>
+						<!-- /.row -->
+						<hr>
+						<div class="row">
+							<div class="col-md-9">
+								<ul class="list-inline">
+									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Guia Principal</a></li>
+									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Beneficiário</a></li>
+									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Prestador</a></li>
+									<li class="list-inline-item text-center"><a href="#" style="margin-right: 15px;">Espelho da Carteira</a></li>
+								</ul>
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-default" type="button">Assumir tarefa</button>
+							</div>							
+							<!-- /.col-md-12 -->
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-md-8 -->
+
+			<!-- PAINEL DOS HISTORICOS -->
+			<div class="col-md-4">
+				<div class="panel">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-12">
+								<label class="text-uppercase text-muted">Histórico</label>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/001-boy.png" alt="Boy">
+								<br/>
+								<span>João Silva</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/002-man-2.png" alt="Man">
+								<br/>
+								<span>Carlos Alberto</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/003-girl.png" alt="Girl">
+								<br/>
+								<span>Maria Clara</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/004-man-1.png" alt="Man">
+								<br/>
+								<span>Luis Augusto</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/005-man.png" alt="Man">
+								<br/>
+								<span>Fernando Luiz</span>
+							</div>
+
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/006-girl-1.png" alt="Man">
+								<br/>
+								<span>Mariana Lopes</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/007-girl.png" alt="Man">
+								<br/>
+								<span>Fernanda Mendes</span>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 text-center text-muted">
+								<img style="width: 50%" src="resources/008-boy-1.png" alt="Man">
+								<br/>
+								<span>Bruno França</span>
+							</div>
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-md-4 -->
+		</div>
+		<!-- /.row -->
+
+		<!-- PAINEL PARECERES -->
+		<div class="panel">
+			<div class="panel-body">
+				<dl class="dl-horizontal">
+					<dt>Indicação Clínica</dt>
+					<dd>PLAN 01/08 - PACIENTE POS CESAREA EMEGERCIAL PREMATURA POR APRESENTAR DOR EM FERIDA OPERATORIA+CEFALEIA INTENSA PERMANECEU EM ANEXO JUSTIFICATIVA</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>Parecer Auditoria Pré</dt>
+					<dd>---Parecer do Auditor--FAVORÁVEL-- Auditor: CWBRAGA em 04/08/2017 10:04</dd>
+				</dl>
+				<hr>
+				<dl class="dl-horizontal">
+					<dt>Auditoria Administrativa</dt>
+					<dd><span class="text-muted">Carlos Alberto - 20/10/2017 - 17:49:01 disse:</span> teste Fluig3</dd>
+					<dd><span class="text-muted">Maria Clara - 18/10/2017 - 15:42:01 disse:</span> teste FLuig1</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>Auditoria Medica</dt>
+					<dd><span class="text-muted">Luis Augusto - 18/10/2017 - 15:44:05 disse:</span> Teste Fluig2</dd>
+				</dl>
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+		
+		<!-- PAINEL DOS MOVIMENTOS AUTORIZADOS NAO COBRADOS -->
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 style="margin-top: 0;">Movimentos Autorizados não Cobrados </h3>
+				<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+			</div>
+			<div class="panel-body">
+				
+				<h4>Guia &nbsp;&nbsp;<small class="text-muted"> - 2017 - 00000001</small></h4>
+				<h5>PRESTADOR PRINCIPAL &nbsp;&nbsp;</h5>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>Prestador</label><select class="form-control form-control-sm" ></select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>Especialidade</label><select class="form-control form-control-sm" ></select>
+						</div>
+					</div>
+				</div>					
+				
+				<div class="table-responsive">
+					<table id="movimentosNaoCobrados1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Hora Ini.</th>
+								<th>Hora Fim</th>
+								<th>Qtd.</th>
+								<th>Movimento</th>
+								<th>Nível Prestador</th>
+								<th>Via Acesso</th>
+								<th>Urg</th>
+								<th>Qtd X Pagamento</th>
+								<th>Qtd X Cobrança</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				
+				<br>
+				
+				<h5>PRESTADOR AUXILIAR &nbsp;&nbsp;</h5>
+
+				<div class="table-responsive">
+					<table id="movimentosNaoCobrados2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Hora Ini.</th>
+								<th>Hora Fim</th>
+								<th>Qtd.</th>
+								<th>Movimento</th>
+								<th>Prestador</th>
+								<th>Especialidade</th>
+								<th>Nível Prestador</th>
+								<th>Via Acesso</th>
+								<th>Urg</th>
+								<th>Qtd X Pagamento</th>
+								<th>Qtd X Cobrança</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				
+				<br>
+				
+				<h5>ANESTESISTA &nbsp;&nbsp;</h5>
+
+				<div class="table-responsive">
+					<table id="movimentosNaoCobrados3" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Data</th>
+								<th>Hora Ini.</th>
+								<th>Hora Fim</th>
+								<th>Qtd.</th>
+								<th>Movimento</th>
+								<th>Prestador</th>
+								<th>Especialidade</th>
+								<th>Nível Prestador</th>
+								<th>Via Acesso</th>
+								<th>Urg</th>
+								<th>Qtd X Pagamento</th>
+								<th>Qtd X Cobrança</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<!-- /.table-responsive -->
+					
+				<br>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<button type="button" class="btn btn-default btn-procedimentos" onclick="adicionarPrestadorAutorizado()">Adicionar Prestador</button>
+							
+							<button type="button" class="btn btn-default btn-procedimentos" >Reagrupar Digitados</button>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+		
+		
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 style="margin-top: 0;">Movimentos Não Autorizados</h3>
+				<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="movimento" class="col-form-label">Movimento:</label>
+							<select class="form-control">
+								<option> -- SELECIONAR -- </option>
+								<option>10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO</option>
+								<option>00000001 - BILIRRUBINAS (DIRETA, INDIRETA E TOTAL)</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="modulo" class="col-form-label">Modulo</label>
+							<select class="form-control" id="modulo"></select>
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="form-group">
+							<label for="quantidade" class="col-form-label">Qt.</label>
+							<input type="text" class="form-control" id="quantidade">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<div class="form-group">
+								<label for="data" class="col-form-label">Data</label>
+								<input type="text" class="form-control" id="data">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="data" class="col-form-label">Hora Ini.</label>
+							<input type="text" class="form-control" id="data">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="data" class="col-form-label">Hora Fim</label>
+							<input type="text" class="form-control" id="data">
+						</div>
+					</div>
+					<div class="col-md-1">
+						<div class="form-group">
+							<label>Urgência</label>
+							<input style="display: block; width: 100%;" type="checkbox" id="urgente">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="data" class="col-form-label">Tab Pag:</label>
+							<input type="text" class="form-control" id="data">
+						</div>
+					</div>								
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="data" class="col-form-label">Tab Cob:</label>
+							<input type="text" class="form-control" id="data">
+						</div>
+					</div>
+					
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary" style="float: right" onclick="salvarMovimento()">Adicionar</button>
+					</div>
+				</div>	
+				<div class="table-responsive">
+					<table id="prestadores" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Nivel Prest.</th>
+								<th>Prestador</th>
+								<th>Especialidade</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				
+				<div class="row">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary" style="float: right" onclick="salvarPrestadores()">Salvar</button>
+					</div>
+				</div>	
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+		
+		
+		<!-- PAINEL DOS PROCEDIMENTOS -->
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 style="margin-top: 0;">Movimentos Digitados</h3>
+				<span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+			</div>
+			<div class="panel-body">
+				
+				<div class="row">
+					<div class="col-sm-3">
+						<div class="form-group">
+							<select class="form-control">
+							<option>Geral</option>
+							<option>Código do movimento</option>
+							<option>Descrição do movimento</option>
+							<option>Data Realização</option>
+						</select>
+						</div>
+					</div>
+
+					<div class="col-sm-9 form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" aria-label="...">
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+							</div>
+							<!-- /btn-group -->
+						</div>
+						<!-- /input-group -->
+					</div>
+				</div>
+				
+				<div id="movimentos">
+					<h5>CARLOS EDUARDO GUBERT &nbsp;&nbsp;</h5>
+
+					<div class="table-responsive">
+						<table id="procedimento1" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Data</th>
+									<th>Hora Ini.</th>
+									<th>Hora Fim</th>
+									<th>Qtd.</th>
+									<th>Movimento</th>
+									<th>Nível Prestador</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					
+					<br>
+					
+					<h5>NILSON CESARIO PEREIRA &nbsp;&nbsp;</h5>
+
+					<div class="table-responsive">
+						<table id="procedimento2" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>Data</th>
+									<th>Hora Ini.</th>
+									<th>Hora Fim</th>
+									<th>Qtd.</th>
+									<th>Movimento</th>
+									<th>Nível Prestador</th>
+									<th>Via Acesso</th>
+									<th>Urg</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+					<!-- /.table-responsive -->
+				</div>
+			</div>
+			<!-- /.panel-body -->
+		</div>
+		<!-- /.panel -->
+		
+		<!-- PAINEL DO PARECER MEDICO -->
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 style="margin-top: 0;">Parecer</h3>
+			</div>
+			<div class="panel-body">
+				<textarea class="form-control" name="name" rows="8"></textarea>
+			</div>
+		</div>
+		<!-- /.panel -->
+		
+		<!-- Modal -->
+		<div class="modal fade" id="inclusaoMovimentos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Adicionar Movimento</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="movimentos">
+						</div>						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#movimento">Adicionar Movimento</button>
+						<button type="button" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.Modal -->
+		
+		<!-- Modal Movimento -->
+		<div class="modal fade" id="movimento" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Movimento</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							
+						</form>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="salvarMovimento()">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal -->
+		
+		<!-- /.col-md-12 -->
+	</div>
+	<!-- /.container-fluid -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+
+	<script>
+		//code para retrair os panel
+		$(document).on('click', '.panel-heading span.clickable', function(e) {
+			var $this = $(this);
+			if (!$this.hasClass('panel-collapsed')) {
+				$this.parents('.panel').find('.panel-body').slideUp();
+				$this.addClass('panel-collapsed');
+				$this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+			} else {
+				$this.parents('.panel').find('.panel-body').slideDown();
+				$this.removeClass('panel-collapsed');
+				$this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+			}
+		})
+		//----------------------------------------------------------------------
+
+		$('[data-toggle="tooltip"]').tooltip();
+		$('#btnEnviar').on("click", function() {
+			location.href = "index.html";
+		});
+
+		var table = $('#procedimento1').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [ 8 ] }],
+			dom: '',
+			ordering: false
+		});
+
+		var table2 = $('#procedimento2').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [ 8 ] }],
+			dom: '',
+			ordering: false
+		});
+		
+		var table3 = $('#prestadores').DataTable({
+				dom: '',
+				"language": {
+						"sEmptyTable": "Nenhum registro",
+						},
+				ordering: false
+			});
+		
+		//variavel com html para o btn ações
+		var btnAcoes = '<button type="button" class="btn btn-primary btn-xs btn-acoes">Ações</button>';
+
+		table.row.add(['08/08/2017', '10:00', '10:30', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', 
+			'<select class="form-control" disabled><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>',
+			'<select class="form-control" disabled><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>',
+			'<input type="checkbox" disabled>', '<span class="label label-success">COBRADO</span>'
+		]).draw();
+		
+		
+		table2.row.add(['08/08/2017', '11:00', '12:00', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', 
+			'<select class="form-control"><option>PRINCIPAL</option><option selected>ASSISTENTE</option><option>ANESTESISTA</option></select>', 
+			'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', '<input type="checkbox">', 
+			'<span class="label label-warning">NÃO COBRADO</span>'
+		]).draw();
+		table2.row.add(['08/08/2017', '14:00', '18:00', '1', 'GINECOLOGIA E OBSTETRICIA', 
+			'<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>', 
+			'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', '<input type="checkbox">',
+			'<span class="label label-warning">NÃO COBRADO</span>'
+		]).draw();
+		
+
+		//---------------------Popover para os btn ações ----------------------
+		//conteudo html com os btn das opções
+		var contentHtml = [
+			'<div class="btn-group-vertical">',
+			'<button class="btn btn-link opcao">Ação 01</button>',
+			'<button class="btn btn-link opcao">Ação 02</button>',
+			'<button class="btn btn-link opcao">Ação 03</button>',
+			'<button class="btn btn-link opcao">Ação 04</button>',
+			'</div>'
+		].join('\n');
+		//atribui e configura o plugin popover a classe dos btn ações
+
+		var showPopover = function() {
+			$(this).popover('show');
+		};
+		var hidePopover = function() {
+			$(this).popover('hide');
+		};
+
+		$('.btn-acoes').popover({
+			placement: 'left',
+			html: 'true',
+			content: contentHtml,
+			trigger: 'manual'
+		}).focus(showPopover).blur(hidePopover);
+		//---------------------------------------------------------------------
+
+		// ativa o menu de glosar
+		$('#auditoria1, #auditoria2, #auditoria3').on('change', 'tbody tr td:nth-child(1) input[type=checkbox]', function() {
+			$('#auditoria1 tbody td:nth-child(1) input[type=checkbox], #auditoria2 tbody td:nth-child(1) input[type=checkbox]').each(function() {
+				if ($(this).is(':checked')) {
+					// mostra o menu
+					$('#glosarMenu').attr('style', 'transform: translateY(0);');
+					$('#glosaMenuInput').focus();
+					return false;
+				} else {
+					// esconde o menu
+					$('#glosarMenu').attr('style', 'transform: translateY(-310px);');
+				}
+			});
+		});
+
+		// select all checkboxes
+		$('#auditoria1 thead tr th input[type=checkbox], #auditoria2 thead tr th input[type=checkbox], #auditoria3 thead tr th input[type=checkbox]').change(function() {
+			$(this)
+				.closest('table')
+				.find('tbody td:nth-child(1) input[type=checkbox]')
+				.prop('checked', $(this).is(':checked'))
+				.change();
+		});
+
+		function descheckar() {
+			$('#auditoria1 tr :nth-child(1) input[type=checkbox], #auditoria2 tr :nth-child(1) input[type=checkbox]')
+				.prop('checked', false)
+				.change();
+
+			$('#auditoria1 tr :nth-child(1) input[type=checkbox], #auditoria2 tr :nth-child(1) input[type=checkbox]')
+				.prop('checked', false)
+				.change();
+		}
+		
+		var index = 1;
+		function salvarMovimento() {
+			
+			table3.row.add(['<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>',
+					'<select class="form-control"><option>CARLOS EDUARDO GUBERT</option><option>NILSON CESARIO PEREIRA</option><option>...</option></select>',
+					//'<div class="input-group"><input type="text" class="form-control" aria-label="..."><div class="input-group-btn"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button></div></div>',
+					'<select class="form-control"><option>PEDIATRIA</option></select>',
+					'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO'
+				]).draw();
+				
+			table3.row.add(['<select class="form-control"><option>PRINCIPAL</option><option selected>ASSISTENTE</option><option>ANESTESISTA</option></select>',
+					'<select class="form-control"><option>CARLOS EDUARDO GUBERT</option></select>',
+					//'<div class="input-group"><input type="text" class="form-control" aria-label="..."><div class="input-group-btn"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button></div></div>',
+					'<select class="form-control"><option>PEDIATRIA</option></select>',
+					'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO'
+				]).draw();
+			
+			table3.row.add(['<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option selected>ANESTESISTA</option></select>',
+					'<select class="form-control"><option>CARLOS EDUARDO GUBERT</option></select>',
+					//'<div class="input-group"><input type="text" class="form-control" aria-label="..."><div class="input-group-btn"><button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button></div></div>',
+					'<select class="form-control"><option>PEDIATRIA</option></select>',
+					'10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO'
+				]).draw();
+				
+		}
+		
+		function salvarPrestadores() {
+			table.row.add(['08/08/2017', '10:00', '10:30', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', 
+				'<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>', 
+				'<select class="form-control" onchange="changeVia(this)"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
+				'<input type="checkbox">', '<span class="label label-danger">SEM AUTORIZAÇÃO</span>'
+			]).draw();
+			
+			table2.row.add(['08/08/2017', '20:00', '22:00', '1', 'UNIMEDS', 
+				'<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>', 
+				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', '<input type="checkbox">', 
+				'<span class="label label-danger">SEM AUTORIZAÇÃO</span>'
+			]).draw();
+			
+			var html =  '<br><h5>ELOISA AMANDA GEISLER</h5>' +
+				'<div class="table-responsive">' +
+					'<table id="procedimento3" class="table table-striped table-hover dt-responsive" cellspacing="0" width="100%">' +
+						'<thead>' +
+							'<tr>' +
+								'<th>Data</th>' +
+								'<th>Hora Ini.</th>' +
+								'<th>Hora Fim</th>' +
+								'<th>Qtd.</th>' +
+								'<th>Movimento</th>' +
+								'<th>Nível Prestador</th>' +
+								'<th>Via Acesso</th>' +
+								'<th>Urg</th>' +
+								'<th></th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody></tbody>' +
+					'</table>' +
+				'</div>'
+				
+			$('#movimentos').append(html);
+			
+			var table4 = $('#procedimento3').DataTable({
+				dom: '',
+				"language": {
+						"sEmptyTable": "Nenhum registro disponível",
+						},
+				ordering: false
+			});
+			
+			table4.row.add(['08/08/2017', '20:00', '22:00', '1', 'UNIMEDS', 
+				'<select class="form-control"><option>PRINCIPAL</option><option>ASSISTENTE</option><option>ANESTESISTA</option></select>', 
+				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', '<input type="checkbox">', 
+				'<span class="label label-danger">SEM AUTORIZAÇÃO</span>'
+			]).draw();
+			
+			table3.clear().draw();
+				
+		}
+		
+		function changeVia(combo) {
+			console.log(combo);
+			var via =  $(combo).find('option:selected').val();
+			var td = $(combo).parents('tr').find('td')[4];
+			var mov = $(td).html();
+			
+			$('#procedimento2 tbody tr td:contains("' + mov +'")').parents('tr').find('td:nth-child(7) select').val(via);
+		}
+		
+		$('#novoMovimento').on('shown.bs.modal', function (e) {
+			$('#movimento').modal('show');
+		})
+		
+		
+		/**
+		*	autorizados não cobrados
+		**/
+		
+		var naoCobrados1 = $('#movimentosNaoCobrados1').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }],
+			dom: '',
+			ordering: false
+		});
+
+		var naoCobrados2 = $('#movimentosNaoCobrados2').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }],
+			dom: '',
+			ordering: false
+		});
+		
+		var naoCobrados3 = $('#movimentosNaoCobrados3').DataTable({
+			columnDefs: [{ className: 'center-align', targets: [  ] }],
+			dom: '',
+			ordering: false
+		});
+		
+		
+		
+		
+		naoCobrados1.row.add(['<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '1', '10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', 
+			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control" ><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>',
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<span class="label label-warning">NÃO COBRADO</span>'
+		]).draw();
+		
+		naoCobrados1.row.add(['08/08/2017', '14:00', '18:00', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', 
+			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>',
+			'<select class="form-control" ><option>PRINCIPAL</option><option>DIFERENTES VIAS</option><option>MESMA VIA</option></select>',
+			'<input type="checkbox">',  '<input type="text" class="form-control" value="1" >', '<input type="text" class="form-control" value="1" >','<span class="label label-warning">NÃO COBRADO</span>'
+		]).draw();
+		
+		naoCobrados2.row.add(['<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '1', '10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', '<select class="form-control"><option>GUILHERME</option><option>JOSE</option><option>MARTA</option></select>', 
+			'<select class="form-control"><option>PEDIATRIA</option></select>',
+			'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+			'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
+			'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<span class="label label-warning">NÃO COBRADO</span>'
+		]).draw();		
+		naoCobrados3.row.add(['08/08/2017', '14:00', '18:00', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', '<select class="form-control" disabled><option>GUILHERME</option><option selected>JOSE</option><option>MARTA</option></select>', 
+			'<select class="form-control" disabled><option>ANESTESISTA</option></select>',
+			'<select class="form-control" disabled><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option selected>DEMAIS ASSISTENTES</option></select>', 
+			'<select class="form-control" disabled><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES" selected>DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
+			'<input type="checkbox" disabled>', '1', '1', '<span class="label label-success">COBRADO</span>'
+		]).draw();
+		
+				
+		function adicionarPrestadorAutorizado(){
+			naoCobrados2.row.add(['<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '1', '10103015 - ATENDIMENTO AO RECEM-NASCIDO EM BERCARIO ', '<select class="form-control"><option>GUILHERME</option><option>JOSE</option><option>MARTA</option></select>', 
+				'<select class="form-control"><option>PEDIATRIA</option></select>',
+				'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
+				'<input type="checkbox">', '<input type="text" class="form-control" >', '<input type="text" class="form-control" >', '<span class="label label-warning">NÃO COBRADO</span>'
+			]).draw();
+			
+			naoCobrados2.row.add(['08/08/2017', '14:00', '18:00', '1', '40301397 - BILIRRUBINAS (DIRETA, INDIRETA, TOTAL)', '<select class="form-control"><option>GUILHERME</option><option>JOSE</option><option>MARTA</option></select>', 
+				'<select class="form-control"><option>PEDIATRIA</option></select>',
+				'<select class="form-control" ><option>PRINCIPAL</option><option>UM ASSISTENTE</option><option>DEMAIS ASSISTENTES</option></select>', 
+				'<select class="form-control"><option value="PRINCIPAL">PRINCIPAL</option><option value="DIFERENTES">DIFERENTES VIAS</option><option value="MESMA">MESMA VIA</option></select>', 
+				'<input type="checkbox">', '<input type="text" class="form-control" value="1">', '<input type="text" class="form-control" value="1">', '<span class="label label-warning">NÃO COBRADO</span>'
+			]).draw();
+		}
+		
+		
+	</script>
+</body>
+
+</html>
+
+<!-- adm -> unimedpoa -->
+<!-- Un1F-2014 -->

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Auditoria Intercâmbio</title>
+
+	<!-- Última versão CSS compilada e minificada -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap.min.css">
+
+	<style>
+		table tbody tr {
+			cursor: pointer;
+		}
+
+		table thead th {
+			white-space: nowrap;
+		}
+
+		table thead th .form-control {
+			height: 25px !important;
+			padding: 0 8px;
+			font-size: 10px;
+			width: auto;
+		}
+
+		table {
+			font-size: 10px;
+		}
+
+		td.details-control {
+			background: url('resources/details_open.png') no-repeat center center;
+			cursor: pointer;
+			width: 5%;
+		}
+
+		tr.shown td.details-control {
+			background: url('resources/details_close.png') no-repeat center center;
+			width: 5%;
+		}
+
+		.panel {
+			padding: 20px;
+			box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h2 class="text-uppercase">Contas a auditar</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="nav nav-tabs nav-justified" role="tablist">
+					<li role="presentation" class="active h4">
+						<a href="#tarefasPool" aria-controls="home" role="tab" data-toggle="tab">
+							<img src="resources/003-man.png" alt="Grupo">
+							<span> Tarefas em Pool</span>
+						</a>
+					</li>
+					<li role="presentation" class="h4">
+						<a href="#tarefasMinhas" aria-controls="profile" role="tab" data-toggle="tab">
+							<img src="resources/004-team.png" alt="Grupo">
+							<span> Tarefas a Concluir</span>
+						</a>
+					</li>
+					<li role="presentation" class="h4">
+						<a href="#analytics" aria-controls="profile" role="tab" data-toggle="tab">
+							<img src="resources/001-profits.png" alt="Grupo">
+							<span> Analytics</span>
+						</a>
+					</li>
+				</ul>
+
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade active in" id="tarefasPool">
+						<div class="panel">
+							<div class="table-responsive">
+								<table id="example" class="table table-striped table-bordered table-hover text-center" cellspacing="0" width="100%">
+									<thead>
+										<tr>
+											<th>Solicitação</th>
+											<th>Localização</th>
+											<th>Unidade</th>
+											<th>Prestador</th>
+											<th>Transação</th>
+											<th>Número</th>
+											<th>Ano Fatura</th>
+											<th>Lote</th>
+											<th>Série</th>
+											<th>Doc</th>
+											<th>Vencimento</th>
+											<th>Valor</th>
+											<th>Grupo</th>
+											<th>Período</th>
+											<th>Paciente</th>
+											<th>Guia/Ano</th>
+											<th>Realização</th>
+										</tr>
+									</thead>
+									<tbody id="corpoTabela"></tbody>
+									<tfoot>
+										<tr>
+											<th>Solicitação</th>
+											<th>Localiszação</th>
+											<th>Unidade</th>
+											<th>Prestador</th>
+											<th>Transação</th>
+											<th>Número</th>
+											<th>Ano Fatura</th>
+											<th>Lote</th>
+											<th>Série</th>
+											<th>Doc</th>
+											<th>Vencimento</th>
+											<th>Valor</th>
+											<th>Grupo</th>
+											<th>Período</th>
+											<th>Paciente</th>
+											<th>Guia/Ano</th>
+											<th>Realização</th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+							<!-- /.table-responsive -->
+						</div>
+						<!-- /.panel -->
+					</div>
+					<!-- /.tab-pane -->
+					<div class="tab-pane fade active in" id="tarefasMinhas">
+					</div>
+					<!-- /.tab-pane -->
+					<div class="tab-pane fade active in" id="analytics">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+						in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<!-- /.tab-pane -->
+				</div>
+				<!-- /.tab-content-->
+			</div>
+			<!-- /.col-md-12 -->
+		</div>
+		<!-- /.row -->
+		
+		<div class="row">
+		<div class="col-md-6 form-group">
+		<div class="checkbox-inline">
+		<label><input type="radio" name="aprovar" value="aprovar">Aprovar</label>
+		<label><input type="radio" name="aprovar" value="devolver">Devolver</label>
+		</div>
+
+		
+		</div>
+		</div>
+		
+		
+	</div>
+	<!-- /.container-fluid -->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js" charset="utf-8"></script>
+	<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.bootstrap.min.js" charset="utf-8"></script>
+	<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.colVis.min.js" charset="utf-8"></script>
+
+	<script>
+	
+		$(document).ready(function() {
+			// Setup - add a text input to each footer cell
+			$('#example tfoot th').each(function() {
+				var title = $(this).text();
+				$(this).html('<input type="text" style="width: 100%;" class="form-control">');
+			});
+
+			var table = $('#example').DataTable({
+				dom: 'Bfrtip',
+				"columnDefs": [{
+					targets: 0,
+					className: 'noVis'
+				}],
+				"buttons": [{
+					extend: 'colvis',
+					columns: ':not(.noVis)'
+				}],
+				"language": {
+					"sEmptyTable": "Nenhum registro encontrado",
+					"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+					"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+					"sInfoFiltered": "(Filtrados de _MAX_ registros)",
+					"sInfoPostFix": "",
+					"sInfoThousands": ".",
+					"sLengthMenu": "_MENU_ resultados por página",
+					"sLoadingRecords": "Carregando...",
+					"sProcessing": "Processando...",
+					"sZeroRecords": "Nenhum registro encontrado",
+					"sSearch": "Pesquisar",
+					"oPaginate": {
+						"sNext": "Próximo",
+						"sPrevious": "Anterior",
+						"sFirst": "Primeiro",
+						"sLast": "Último"
+					},
+					"oAria": {
+						"sSortAscending": ": Ordenar colunas de forma ascendente",
+						"sSortDescending": ": Ordenar colunas de forma descendente"
+					}
+				}
+			});
+
+			$('#example tfoot tr').insertAfter($('#example thead tr'));
+
+			// Apply the search
+			table.columns().every(function() {
+				var that = this;
+
+				$('input', this.footer()).on('keyup change', function() {
+					if (that.search() !== this.value) {
+						that.search(this.value).draw();
+					}
+				});
+			});
+
+			//----------------------------------#####---------------------------
+
+			$('.dt-buttons a').text('Colunas visiveis');
+
+			var grupos = [
+				'teste1',
+				'teste2',
+				'teste3',
+				'teste4'
+			];
+
+			// bloco script add infos na tabela
+			for (var i = 0; i < 50; i++) {
+				table.row.add([
+					Math.floor(Math.random() * 999) + 1, // Solicitação
+					'Auditoria Medica', // Localização
+					Math.floor(Math.random() * 50) + 250, // Unidade
+					Math.floor(Math.random() * 990200) + 250, // Prestador
+					'200', // Transação
+					Math.floor(Math.random() * 321682) + 250, // Numero
+					'2017', // Ano Fatura
+					Math.floor(Math.random() * 2032) + 34, // Lote
+					Math.floor(Math.random() * 11885772) + 999, // Serie
+					Math.floor(Math.random() * 11885772) + 9999, // Doc
+					'<span class="text-danger">Faltam ' + (Math.floor(Math.random() * 30) + 1) + ' dias </span><br/>' + (Math.floor(Math.random() * 30) + 1) + "/" + (Math.floor(Math.random() * 12) + 1) + '/2017', // Vencimento
+					'R$ ' + (Math.floor(Math.random() * 999) + 1) + ',00',
+					grupos[Math.floor(Math.random() * 4)],
+					'2017/06', // Periodo
+					'Marilda', // Paciente
+					'00000001/17', // Guia/Ano
+					'<br/>' + (Math.floor(Math.random() * 30) + 1) + "/" + (Math.floor(Math.random() * 12) + 1) + '/2017', // Realização
+				]).draw();
+			}
+
+			// transforma a linha da tabela em link
+			$('#example').on('click', 'tbody tr', function(e) {
+				window.location.href = 'prototipo2.html';
+			});
+		});
+	</script>
+
+	<script>
+		$("input[type=radio]").on("click", function(){
+			console.log($("input:checked").val());
+		})
+	</script>
+	
+	</body>
+
+</html>
